@@ -1,16 +1,13 @@
 package com.github.rmannibucau.blog.dao;
 
-import com.github.rmannibucau.blog.dao.api.Param;
-import com.github.rmannibucau.blog.dao.api.Query;
-import com.github.rmannibucau.blog.dao.api.Repository;
-import com.github.rmannibucau.blog.dao.api.JpaRepository;
 import com.github.rmannibucau.blog.domain.Tag;
-
-import javax.enterprise.context.ApplicationScoped;
+import org.apache.deltaspike.data.api.EntityRepository;
+import org.apache.deltaspike.data.api.Query;
+import org.apache.deltaspike.data.api.QueryParam;
+import org.apache.deltaspike.data.api.Repository;
 
 @Repository
-@ApplicationScoped
-public interface TagRepository extends JpaRepository<Tag, Long> {
-    @Query(needTransaction = false)
-    Tag findByName(@Param("name") String name);
+public interface TagRepository extends EntityRepository<Tag, Long> {
+    @Query(named = "Tag.findByName")
+    Tag findByName(@QueryParam("name") String name);
 }

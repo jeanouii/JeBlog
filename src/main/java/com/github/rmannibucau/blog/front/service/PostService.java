@@ -12,6 +12,8 @@ import javax.ejb.Lock;
 import javax.ejb.LockType;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Singleton
 @Lock(LockType.READ)
@@ -36,7 +38,7 @@ public class PostService {
         if (post.getCreated() == null) {
             toSave = new Post();
         } else {
-            toSave = posts.findById(post.getId());
+            toSave = posts.findBy(post.getId());
             if (toSave == null) {
                 throw new IllegalArgumentException("Post " + post.getId() + " not found");
             }
@@ -61,7 +63,7 @@ public class PostService {
         posts.saveAndFlush(toSave);
     }
 
-    public void delete(final long id) {
-        posts.deleteById(id);
+    public void delete(@NotNull @Min(1) final Long id) {
+        posts.remove(posts.findBy(id));
     }
 }

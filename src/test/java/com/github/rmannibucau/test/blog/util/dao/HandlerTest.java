@@ -2,6 +2,7 @@ package com.github.rmannibucau.test.blog.util.dao;
 
 import com.github.rmannibucau.blog.dao.UserRepository;
 import com.github.rmannibucau.blog.domain.User;
+import com.github.rmannibucau.test.blog.util.ShrinkWraps;
 import org.apache.deltaspike.core.api.provider.BeanProvider;
 import org.apache.deltaspike.core.impl.config.ConfigurationExtension;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -31,6 +32,8 @@ import static org.junit.Assert.assertTrue;
 public class HandlerTest {
     @Deployment
     public static Archive<?> war() {
+        if (true) return ShrinkWraps.javaEEBlog();
+        else
         return ShrinkWrap.create(WebArchive.class, "dao.war")
                 .addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
                 .addClass(UserRepository.class)
@@ -50,6 +53,7 @@ public class HandlerTest {
     private EntityManager em;
 
     @Test
+    @Transactional(TransactionMode.ROLLBACK)
     public void save() {
         final User e = new User();
         e.setLogin("anewuser");
@@ -73,12 +77,12 @@ public class HandlerTest {
         em.persist(e);
         em.flush();
 
-        final User byId = dao.findById(e.getId());
+        final User byId = dao.findBy(e.getId());
         assertNotNull(byId);
         assertEquals("user", byId.getDisplayName());
         assertEquals("anewuser", byId.getLogin());
 
-        dao.deleteById(e.getId());
+        dao.remove(dao.findBy(e.getId()));
     }
 
     @Test
@@ -109,7 +113,7 @@ public class HandlerTest {
         em.persist(e);
         em.flush();
 
-        assertEquals(init + 1, dao.countAll());
+        assertEquals(init + 1, (long) dao.count());
     }
 
     @Test

@@ -4,7 +4,10 @@ import org.apache.deltaspike.core.api.config.ConfigProperty;
 import org.apache.deltaspike.core.api.config.view.metadata.ViewConfigResolver;
 import org.apache.deltaspike.core.api.provider.BeanProvider;
 import org.apache.deltaspike.core.impl.config.ConfigurationExtension;
+import org.apache.deltaspike.data.api.Repository;
+import org.apache.deltaspike.data.impl.RepositoryExtension;
 import org.apache.deltaspike.jsf.impl.config.view.ViewConfigResolverProducer;
+import org.apache.deltaspike.jsf.spi.scope.window.ClientWindow;
 import org.apache.deltaspike.partialbean.api.PartialBeanBinding;
 import org.apache.deltaspike.partialbean.impl.PartialBeanBindingExtension;
 import org.apache.deltaspike.security.api.authorization.Secured;
@@ -35,10 +38,13 @@ public final class ShrinkWraps {
                 .addAsLibraries(
                         jarLocation(ViewConfigResolver.class),
                         jarLocation(ViewConfigResolverProducer.class),
+                        jarLocation(ClientWindow.class),
                         jarLocation(Secured.class),
                         jarLocation(SecurityExtension.class),
                         jarLocation(PartialBeanBinding.class),
                         jarLocation(PartialBeanBindingExtension.class),
+                        jarLocation(Repository.class),
+                        jarLocation(RepositoryExtension.class),
                         jarLocation(ConfigProperty.class),
                         jarLocation(ConfigurationExtension.class),
                         jarLocation(BeanProvider.class));

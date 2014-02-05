@@ -1,18 +1,15 @@
 package com.github.rmannibucau.blog.dao;
 
-import com.github.rmannibucau.blog.dao.api.JpaRepository;
-import com.github.rmannibucau.blog.dao.api.Param;
-import com.github.rmannibucau.blog.dao.api.Repository;
 import com.github.rmannibucau.blog.domain.User;
-
-import javax.enterprise.context.ApplicationScoped;
-import java.util.Collection;
+import org.apache.deltaspike.data.api.EntityRepository;
+import org.apache.deltaspike.data.api.Query;
+import org.apache.deltaspike.data.api.QueryParam;
+import org.apache.deltaspike.data.api.Repository;
 
 @Repository
-@ApplicationScoped
-public interface UserRepository extends JpaRepository<User, Long> {
-    User findByLoginAndPassword(@Param("login") String name, @Param("password") String password);
-    User findByLogin(@Param("login") String login);
-    Collection<User> findAll();
-    long countAll();
+public interface UserRepository extends EntityRepository<User, Long> {
+    @Query(named = "User.findByLoginAndPassword")
+    User findByLoginAndPassword(@QueryParam("login") String name, @QueryParam("password") String password);
+    @Query(named = "User.findByLogin")
+    User findByLogin(@QueryParam("login") String login);
 }

@@ -20,7 +20,7 @@ public class PostController {
 
     public void init() {
         if (id >= 0) {
-            final Post p = posts.findById(id);
+            final Post p = posts.findBy(id);
             if (p != null) {
                 post = new PostDto(p.getId(), p.getTitle(), p.getHtml(), p.getFormat(),
                                 p.getCreated(), p.getModified(),

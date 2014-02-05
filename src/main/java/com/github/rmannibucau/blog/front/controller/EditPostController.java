@@ -18,7 +18,7 @@ public class EditPostController extends PostEditContoller {
 
     public void init() {
         if (post == null || post.getId() != id) {
-            final Post record = posts.findById(id);
+            final Post record = posts.findBy(id);
             post = new PostDto(record.getId(), record.getTitle(), record.getContent(),
                     record.getFormat(), record.getCreated(), record.getModified(),
                     record.getAuthor().getLogin(), record.getTagsAsString(), record.getStatus());
