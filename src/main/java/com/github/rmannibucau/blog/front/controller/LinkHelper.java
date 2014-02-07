@@ -16,14 +16,14 @@ public class LinkHelper {
     }
 
     public Class<? extends Navigation.PostsNavigation> getPostPage() {
-        return Navigation.Post.class;
+        return Navigation.PostsNavigation.Post.class;
     }
 
     public Class<? extends Navigation.PostsNavigation> getEditPostPage() {
-        return Navigation.EditPost.class;
+        return Navigation.PostsNavigation.EditPost.class;
     }
 
     public Class<? extends Navigation.PostsNavigation> getCreatePost() {
-        return Navigation.CreatePost.class;
+        return Navigation.PostsNavigation.CreatePost.class;
     }
 }
