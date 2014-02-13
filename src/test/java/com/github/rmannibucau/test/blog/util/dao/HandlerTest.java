@@ -1,10 +1,13 @@
 package com.github.rmannibucau.test.blog.util.dao;
 
+import com.github.rmannibucau.blog.dao.PostRepository;
 import com.github.rmannibucau.blog.dao.UserRepository;
+import com.github.rmannibucau.blog.domain.Post;
 import com.github.rmannibucau.blog.domain.User;
 import com.github.rmannibucau.test.blog.util.ShrinkWraps;
 import org.apache.deltaspike.core.api.provider.BeanProvider;
 import org.apache.deltaspike.core.impl.config.ConfigurationExtension;
+import org.apache.deltaspike.data.api.QueryResult;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
@@ -49,8 +52,21 @@ public class HandlerTest {
     @Inject
     private UserRepository dao;
 
+    @Inject
+    private PostRepository postDao;
+
     @PersistenceContext(name = "je-blog")
     private EntityManager em;
+
+    @Test
+    @Transactional(TransactionMode.ROLLBACK)
+    public void countPostWithQueryResult() {
+        QueryResult<Post> queryResult = postDao.findByStatus(Post.Status.PUBLISHED)
+                .withPageSize(2)
+                .toPage(1);
+
+        System.out.println(queryResult.countPages());
+    }
 
     @Test
     @Transactional(TransactionMode.ROLLBACK)
